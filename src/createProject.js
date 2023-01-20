@@ -4,3 +4,5 @@ function createProject(name, todos) {
         todos: todos
     };
 }
+
+export default createProject;

@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <script src="main.js" defer></script>
     <title>Todo List</title>
 </head>
 <body>
@@ -13,11 +14,12 @@
             <h1>Todo List</h1>
         </div>
         <div class="sidebar">
-            <div class="today">
+            <div class="projects">
                 <div class="projects-header">
                     <h2>Projects</h2>
-                    <button type="button">Add New Project</button>
+                    <button type="button" class="new-project">Add New Project</button>
                 </div>
+                <ul class="projects-list"></ul>
             </div>
         </div>
         <div class="content"></div>
