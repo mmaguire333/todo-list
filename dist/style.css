@@ -24,6 +24,11 @@ body {
     grid-row: 2 / 5;
 }
 
+.sidebar-project-container {
+    display: flex;
+    gap: 10px;
+}
+
 .projects-header {
     width: 100%;
     display: flex;

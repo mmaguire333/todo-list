@@ -9,8 +9,8 @@ export const myProjects = {
         this.projects.push(newProject);
     }, 
 
-    removeProject(projectToRemove) {
-        let index = this.projects.findIndex((project) => project.name === projectToRemove.name);
+    removeProject(projectToRemoveName) {
+        let index = this.projects.findIndex((project) => project.name === projectToRemoveName);
         this.projects.splice(index, 1);
     }   
 }
