@@ -1,9 +1,9 @@
 import createProject from "./createProject";
 import { openProjectForm, closeProjectForm } from "./projectFormControl";
 import { myProjects } from "./projectsObject";
+import { closeTodoForm, openTodoForm } from "./todoFormControl";
 
 let newProjectBtn = document.querySelector('.new-project');
-let cancelButton = document.querySelector('.cancel-button');
 
 // open form on clicking new project
 newProjectBtn.addEventListener('click', () => {
@@ -52,3 +52,53 @@ document.addEventListener('click', function(e) {
         target.parentNode.remove();
     }
 });
+
+// highlight project in sidebar on click and display it in content section
+document.addEventListener('click', function(e) {
+    const target = e.target.closest('.sidebar-project-container');
+
+    if(target) {
+        // highlight within sidebar
+        let projectDivs = document.querySelectorAll('.sidebar-project-container');
+        for(let i = 0; i < projectDivs.length; i++) {
+            projectDivs[i].style.backgroundColor = 'transparent';
+        }
+        target.style.backgroundColor = 'lightgray';
+
+        // display within content section
+        let content = document.querySelector('.content');
+
+        let contentTitle = document.querySelector('.content-title');
+        let contentTodos = document.querySelector('.todos');
+        contentTitle.textContent = target.firstChild.textContent;
+
+        let addTodoBtn = document.createElement('button');
+        addTodoBtn.type = 'button';
+        addTodoBtn.id = 'add-todo-button';
+        addTodoBtn.textContent = 'Add Todo';
+        content.appendChild(addTodoBtn);
+
+        //load todos for current project
+        let currentProject = myProjects.getProjects.find((project) => project.name === contentTitle.textContent);
+
+    }
+});
+
+
+// load form to create todos on clicking add todo button
+document.addEventListener('click', function(e) {
+    const target = e.target.closest('#add-todo-button');
+
+    if(target) {
+        openTodoForm();
+    }
+});
+
+// close todo form on clicking cancel
+document.addEventListener('click', function(e) {
+    const target = e.target.closest('#cancel-todo');
+
+    if(target) {
+        closeTodoForm();
+    }
+})
