@@ -47,3 +47,8 @@ body {
     flex-direction: column;
     gap: 10px;
 }
+
+.todo-container {
+    display: flex;
+    gap: 20px;
+}
