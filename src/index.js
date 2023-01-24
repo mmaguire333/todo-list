@@ -1,7 +1,9 @@
 import createProject from "./createProject";
+import createTodo from "./createTodo";
 import { openProjectForm, closeProjectForm } from "./projectFormControl";
 import { myProjects } from "./projectsObject";
 import { closeTodoForm, openTodoForm } from "./todoFormControl";
+import { displayTodo } from "./todoDisplayControl";
 
 let newProjectBtn = document.querySelector('.new-project');
 
@@ -79,7 +81,7 @@ document.addEventListener('click', function(e) {
         content.appendChild(addTodoBtn);
 
         //load todos for current project
-        let currentProject = myProjects.getProjects.find((project) => project.name === contentTitle.textContent);
+        let currentProject = myProjects.getProjects().find((project) => project.name === contentTitle.textContent);
 
     }
 });
@@ -101,4 +103,26 @@ document.addEventListener('click', function(e) {
     if(target) {
         closeTodoForm();
     }
-})
+});
+
+// create and display new todo on clicking submit
+document.addEventListener('click', function(e) {
+    const target = e.target.closest('#submit-todo');
+
+    if(target) {
+        let contentTitle = document.querySelector('.content-title');
+        let currentProject = myProjects.getProjects().find((project) => project.name === contentTitle.textContent);
+        
+        let newTitle = document.querySelector('.todo-title-input').value;
+        let newDescription = document.querySelector('.todo-description-input').value;
+        let newDueDate = document.querySelector('.duedate-input').value;
+        let newPriority = document.getElementById('todo-priority').value;
+        let newStatus = document.getElementById('todo-status-dropdown').value;
+        
+        let newTodo = createTodo(newTitle, newDescription, newDueDate, newPriority, newStatus);
+        currentProject.addTodo(newTodo);
+
+        closeTodoForm();
+        displayTodo(newTodo);
+    }
+});

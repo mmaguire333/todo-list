@@ -13,6 +13,26 @@ let dueDateInput = document.createElement('input');
 dueDateInput.type = 'date';
 dueDateInput.classList.add('duedate-input');
 
+let priorityInput = document.createElement('select');
+priorityInput.id = 'todo-priority';
+
+let highPriority = document.createElement('option');
+highPriority.textContent = 'High Priority';
+highPriority.value = 'High';
+highPriority.selected = true;
+
+let mediumPriority = document.createElement('option');
+mediumPriority.textContent = 'Medium Priority';
+mediumPriority.value = 'Medium';
+
+let lowPriority = document.createElement('option');
+lowPriority.textContent = 'Low Priority';
+lowPriority.value = 'Low';
+
+priorityInput.appendChild(highPriority);
+priorityInput.appendChild(mediumPriority);
+priorityInput.appendChild(lowPriority);
+
 let statusDropdownInput = document.createElement('select');
 statusDropdownInput.id = 'todo-status-dropdown';
 statusDropdownInput.name = 'todo-status-dropdown';
@@ -45,6 +65,7 @@ buttonDiv.appendChild(cancelBtn);
 formContainer.appendChild(titleInput);
 formContainer.appendChild(descriptionInput);
 formContainer.appendChild(dueDateInput);
+formContainer.appendChild(priorityInput);
 formContainer.appendChild(statusDropdownInput);
 formContainer.appendChild(buttonDiv);
 
@@ -59,6 +80,7 @@ function closeTodoForm() {
     descriptionInput.value = "";
     dueDateInput.value = "";
     noStatus.selected = true;
+    highPriority.selected = true;
     formContainer.remove();
 }
 
