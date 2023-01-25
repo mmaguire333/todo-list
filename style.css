@@ -32,7 +32,13 @@ body {
 .projects-header {
     width: 100%;
     display: flex;
-    justify-content: space-evenly;
+    flex-direction: column;
+    align-items: center;
+}
+
+.today, .this-week, .all {
+    display: flex;
+    justify-content: center;
 }
 
 .content {
