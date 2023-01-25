@@ -161,4 +161,26 @@ document.addEventListener('click', function(e) {
     }
 });
 
-// functionality for delete button
+// functionality for delete todo button
+document.addEventListener('click', function(e) {
+    const target  = e.target.closest('#delete-todo-button');
+
+    if(target) {
+        let currentProject = myProjects.getProjects().find((project) => project.name === document.querySelector('.content-title').textContent);
+        let currentTodoTitle = target.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.textContent;
+        let currentTodoDescription = target.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.textContent;
+        let currentTodo = currentProject.todos.find((todo) => todo.title === currentTodoTitle && todo.description === currentTodoDescription);
+
+        currentProject.removeTodo(currentTodo);
+
+        let displayedList = document.querySelector('.todos');
+        while(displayedList.firstChild) {
+            displayedList.firstChild.remove();
+        }
+        
+        let remainingTodos = currentProject.todos;
+        for(let i = 0; i < remainingTodos.length; i++) {
+            displayTodo(remainingTodos[i]);
+        }
+    }
+});

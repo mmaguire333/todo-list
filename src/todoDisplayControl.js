@@ -50,8 +50,4 @@ function displayTodo(todo) {
     todosList.appendChild(listElement);
 }
 
-function removeTodoFromDisplay() {
-
-}
-
-export { displayTodo, removeTodoFromDisplay }
+export { displayTodo }
