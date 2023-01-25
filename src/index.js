@@ -24,18 +24,29 @@ document.addEventListener('click', function(e) {
 // create project and add it to project object on submit
 document.addEventListener('click', function(e) {
     const target = e.target.closest('.submit-project-button');
+
     let projectsList = document.querySelector('.projects-list');
     let listItem = document.createElement('li');
+    listItem.classList.add('sidebar-project-item');
+
     let deleteButton = document.createElement('button');
     deleteButton.type = 'button';
     deleteButton.textContent = 'X';
     deleteButton.classList.add('delete-button');
+
     let newProjContainer = document.createElement('div');
     newProjContainer.classList.add('sidebar-project-container');
     newProjContainer.appendChild(listItem);
     newProjContainer.appendChild(deleteButton);
 
     if(target) {
+        for(let i = 0; i < myProjects.getProjects().length; i++) {
+            if(document.getElementById('new-project-name').value === myProjects.getProjects()[i].name) {
+                alert("A project with this name already exists. Please choose a different name.");
+                return;
+            }
+        }
+
         let newProj = createProject(document.getElementById('new-project-name').value, []);
         myProjects.addProject(newProj);
         closeProjectForm();
@@ -44,12 +55,26 @@ document.addEventListener('click', function(e) {
     }
 });
 
-// make delete button functional
+// make project delete button functional
 document.addEventListener('click', function(e) {
     const target = e.target.closest('.delete-button');
 
     if(target) {
+
         let projectName = target.previousElementSibling.textContent;
+
+        // remove project from display if currently being displayed
+        if(document.querySelector('.content-title').textContent === projectName) {
+            document.querySelector('.content-title').textContent = "";
+            document.getElementById('add-todo-button').style.display = 'none';
+            
+            let list = document.querySelector('.todos');
+            while(list.firstChild) {
+                list.firstChild.remove();
+            }
+        }
+
+        // remove project from project object and from sidebar display
         myProjects.removeProject(projectName);
         target.parentNode.remove();
     }
@@ -57,11 +82,11 @@ document.addEventListener('click', function(e) {
 
 // highlight project in sidebar on click and display it in content section
 document.addEventListener('click', function(e) {
-    const target = e.target.closest('.sidebar-project-container');
+    const target = e.target.closest('.sidebar-project-item');
 
     if(target) {
         // highlight within sidebar
-        let projectDivs = document.querySelectorAll('.sidebar-project-container');
+        let projectDivs = document.querySelectorAll('.sidebar-project-item');
         for(let i = 0; i < projectDivs.length; i++) {
             projectDivs[i].style.backgroundColor = 'transparent';
         }
@@ -77,7 +102,7 @@ document.addEventListener('click', function(e) {
             contentTodos.firstChild.remove();
         }
 
-        contentTitle.textContent = target.firstChild.textContent;
+        contentTitle.textContent = target.textContent;
 
         let addTodoBtn = document.getElementById('add-todo-button');
         if(addTodoBtn.style.display === 'none') {
@@ -136,4 +161,4 @@ document.addEventListener('click', function(e) {
     }
 });
 
-// functionality for delete button 
+// functionality for delete button
