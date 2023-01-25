@@ -67,21 +67,30 @@ document.addEventListener('click', function(e) {
         }
         target.style.backgroundColor = 'lightgray';
 
-        // display within content section
+        // remove content currently displayed and add content associated with clicked project
         let content = document.querySelector('.content');
 
         let contentTitle = document.querySelector('.content-title');
         let contentTodos = document.querySelector('.todos');
+        
+        while(contentTodos.firstChild) {
+            contentTodos.firstChild.remove();
+        }
+
         contentTitle.textContent = target.firstChild.textContent;
 
-        let addTodoBtn = document.createElement('button');
-        addTodoBtn.type = 'button';
-        addTodoBtn.id = 'add-todo-button';
-        addTodoBtn.textContent = 'Add Todo';
-        content.appendChild(addTodoBtn);
+        let addTodoBtn = document.getElementById('add-todo-button');
+        if(addTodoBtn.style.display === 'none') {
+            addTodoBtn.style.display = 'block';
+        }
+        
 
         //load todos for current project
         let currentProject = myProjects.getProjects().find((project) => project.name === contentTitle.textContent);
+        let currentTodos = currentProject.todos;
+        for(let i = 0; i < currentTodos.length; i++) {
+            displayTodo(currentTodos[i]);
+        }
 
     }
 });
@@ -126,3 +135,5 @@ document.addEventListener('click', function(e) {
         displayTodo(newTodo);
     }
 });
+
+// functionality for delete button 
