@@ -4,6 +4,7 @@ import { openProjectForm, closeProjectForm } from "./projectFormControl";
 import { myProjects } from "./projectsObject";
 import { closeTodoForm, openTodoForm } from "./todoFormControl";
 import { displayTodo } from "./todoDisplayControl";
+import { openEditForm, closeEditForm } from "./editTodoFormControl";
 
 let newProjectBtn = document.querySelector('.new-project');
 
@@ -182,5 +183,69 @@ document.addEventListener('click', function(e) {
         for(let i = 0; i < remainingTodos.length; i++) {
             displayTodo(remainingTodos[i]);
         }
+    }
+});
+
+// open edit form for current todo on clicking edit button
+let currentlySelectedTodo;
+document.addEventListener('click', function(e) {
+    const target = e.target.closest('#edit-todo-btn');
+
+    if(target) {
+        let currentProject = myProjects.getProjects().find((project) => project.name === document.querySelector('.content-title').textContent);
+        let currentTodoTitle = target.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.textContent;
+        let currentTodoDescription = target.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.textContent;
+        currentlySelectedTodo = currentProject.todos.find((todo) => todo.title === currentTodoTitle && todo.description === currentTodoDescription);
+
+        openEditForm(currentlySelectedTodo);
+    }
+});
+
+// functionality for cancel edit button
+document.addEventListener('click', function(e) {
+    const target = e.target.closest('#cancel-todo');
+
+    if(target) {
+        closeEditForm();
+    }
+});
+
+// save and display changes after
+document.addEventListener('click', function(e) {
+    const target = e.target.closest('#save-todo-changes');
+
+    if(target) {
+        // values of edited form
+        let newTitle = document.querySelector('.todo-title-input').value;
+        let newDescription = document.querySelector('.todo-description-input').value;
+        let newDueDate = document.querySelector('.duedate-input').value;
+        let newPriority = document.getElementById('todo-priority').value;
+        let newStatus = document.getElementById('todo-status-dropdown').value;
+
+        // get dom elements associated with currently selected todo
+        let list = document.querySelector('.todos');
+        let displayedTodos = list.children;
+        let todoDom;
+        for(let i = 0; i < displayedTodos.length; i++) {
+            if(displayedTodos[i].firstChild.firstChild.textContent === currentlySelectedTodo.title && displayedTodos[i].firstChild.firstChild.nextSibling.textContent === currentlySelectedTodo.description) {
+                todoDom = displayedTodos[i].firstChild;
+            }
+        }
+
+        // set current todo values to values from edited form
+        currentlySelectedTodo.title = newTitle;
+        currentlySelectedTodo.description = newDescription;
+        currentlySelectedTodo.dueDate = newDueDate;
+        currentlySelectedTodo.priority = newPriority;
+        currentlySelectedTodo.isDone = newStatus;
+
+        // updated dom elements to the new values of the current todo
+        todoDom.firstChild.textContent = newTitle;
+        todoDom.firstChild.nextSibling.textContent = newDescription;
+        todoDom.firstChild.nextSibling.nextSibling.textContent = newPriority;
+        todoDom.firstChild.nextSibling.nextSibling.nextSibling.textContent = newStatus;
+        todoDom.firstChild.nextSibling.nextSibling.nextSibling.nextSibling.textContent = newDueDate;
+
+        closeEditForm();
     }
 });
