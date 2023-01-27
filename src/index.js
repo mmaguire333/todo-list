@@ -160,6 +160,11 @@ document.addEventListener('click', function(e) {
         let newPriority = document.getElementById('todo-priority').value;
         let newStatus = document.getElementById('todo-status-dropdown').value;
         
+        if(!document.querySelector('.todo-form-container').checkValidity()) {
+            alert("Please fill out all required fields.");
+            return;
+        }
+
         let newTodo = createTodo(newTitle, newDescription, newDueDate, newPriority, newStatus);
         currentProject.addTodo(newTodo);
 

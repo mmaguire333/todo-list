@@ -1,20 +1,24 @@
-let formContainer = document.createElement('div');
+let formContainer = document.createElement('form');
 formContainer.classList.add('todo-form-container');
 
 let titleInput = document.createElement('input');
 titleInput.type = 'text';
 titleInput.classList.add('todo-title-input');
+titleInput.required = true;
 
 let descriptionInput = document.createElement('input');
 descriptionInput.type = 'text';
 descriptionInput.classList.add('todo-description-input');
+descriptionInput.required = true;
 
 let dueDateInput = document.createElement('input');
 dueDateInput.type = 'date';
 dueDateInput.classList.add('duedate-input');
+dueDateInput.required = true;
 
 let priorityInput = document.createElement('select');
 priorityInput.id = 'todo-priority';
+priorityInput.required = true;
 
 let highPriority = document.createElement('option');
 highPriority.textContent = 'High Priority';
@@ -36,6 +40,7 @@ priorityInput.appendChild(lowPriority);
 let statusDropdownInput = document.createElement('select');
 statusDropdownInput.id = 'todo-status-dropdown';
 statusDropdownInput.name = 'todo-status-dropdown';
+statusDropdownInput.required = true;
 
 let noStatus = document.createElement('option');
 noStatus.textContent = 'No';
