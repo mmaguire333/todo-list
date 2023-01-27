@@ -1,5 +1,6 @@
 // New project form elements
-let newProjectForm = document.createElement('div');
+let newProjectForm = document.createElement('form');
+newProjectForm.classList.add('project-form');
 let newProjectInput = document.createElement('input');
 newProjectInput.type = 'text';
 newProjectInput.id = 'new-project-name';

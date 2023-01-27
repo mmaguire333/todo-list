@@ -42,6 +42,11 @@ document.addEventListener('click', function(e) {
     newProjContainer.appendChild(deleteButton);
 
     if(target) {
+        if(!document.querySelector('.project-form').checkValidity()) {
+            alert("Please choose a name for this project.");
+            return;            
+        }
+
         for(let i = 0; i < myProjects.getProjects().length; i++) {
             if(document.getElementById('new-project-name').value === myProjects.getProjects()[i].name) {
                 alert("A project with this name already exists. Please choose a different name.");
@@ -236,6 +241,11 @@ document.addEventListener('click', function(e) {
         let newDueDate = new Date(newYear, newMonth, newDay);
         let newPriority = document.getElementById('todo-priority').value;
         let newStatus = document.getElementById('todo-status-dropdown').value;
+
+        if(!document.querySelector('.todo-form-container').checkValidity()) {
+            alert("Please fill out all required fields.");
+            return;
+        }
 
         // get dom elements associated with currently selected todo
         let list = document.querySelector('.todos');
