@@ -5,6 +5,7 @@ import { myProjects } from "./projectsObject";
 import { closeTodoForm, openTodoForm } from "./todoFormControl";
 import { displayTodo } from "./todoDisplayControl";
 import { openEditForm, closeEditForm } from "./editTodoFormControl";
+import { isToday, isThisWeek } from "date-fns";
 
 let newProjectBtn = document.querySelector('.new-project');
 
@@ -91,11 +92,12 @@ document.addEventListener('click', function(e) {
         for(let i = 0; i < projectDivs.length; i++) {
             projectDivs[i].style.backgroundColor = 'transparent';
         }
+        document.querySelector('.today').style.backgroundColor = 'transparent';
+        document.querySelector('.this-week').style.backgroundColor = 'transparent';
+        document.querySelector('.all').style.backgroundColor = 'transparent';
         target.style.backgroundColor = 'lightgray';
 
         // remove content currently displayed and add content associated with clicked project
-        let content = document.querySelector('.content');
-
         let contentTitle = document.querySelector('.content-title');
         let contentTodos = document.querySelector('.todos');
         
@@ -150,7 +152,11 @@ document.addEventListener('click', function(e) {
         
         let newTitle = document.querySelector('.todo-title-input').value;
         let newDescription = document.querySelector('.todo-description-input').value;
-        let newDueDate = document.querySelector('.duedate-input').value;
+        let dateString = document.querySelector('.duedate-input').value;
+        let newYear = parseInt(dateString.substring(0,4));
+        let newMonth = parseInt(dateString.substring(5,7)) - 1;
+        let newDay = parseInt(dateString.substring(8));
+        let newDueDate = new Date(newYear, newMonth, newDay);
         let newPriority = document.getElementById('todo-priority').value;
         let newStatus = document.getElementById('todo-status-dropdown').value;
         
@@ -218,7 +224,11 @@ document.addEventListener('click', function(e) {
         // values of edited form
         let newTitle = document.querySelector('.todo-title-input').value;
         let newDescription = document.querySelector('.todo-description-input').value;
-        let newDueDate = document.querySelector('.duedate-input').value;
+        let dateString = document.querySelector('.duedate-input').value;
+        let newYear = parseInt(dateString.substring(0,4));
+        let newMonth = parseInt(dateString.substring(5,7)) - 1;
+        let newDay = parseInt(dateString.substring(8));
+        let newDueDate = new Date(newYear, newMonth, newDay);
         let newPriority = document.getElementById('todo-priority').value;
         let newStatus = document.getElementById('todo-status-dropdown').value;
 
@@ -247,5 +257,88 @@ document.addEventListener('click', function(e) {
         todoDom.firstChild.nextSibling.nextSibling.nextSibling.nextSibling.textContent = newDueDate;
 
         closeEditForm();
+    }
+});
+
+let todaySection = document.querySelector('.today');
+let thisWeekSection = document.querySelector('.this-week');
+let allSection = document.querySelector('.all');
+
+// highlight today section and display todos for today
+todaySection.addEventListener('click', () => {
+    thisWeekSection.style.backgroundColor = 'transparent';
+    allSection.style.backgroundColor = 'transparent';
+    todaySection.style.backgroundColor = 'lightgray';
+
+    let projectDivs = document.querySelectorAll('.sidebar-project-item');
+    for(let i = 0; i < projectDivs.length; i++) {
+        projectDivs[i].style.backgroundColor = 'transparent';
+    }
+
+    document.querySelector('.content-title').textContent = 'Todos Due Today';
+    document.getElementById('add-todo-button').style.display = 'none';
+
+    let todos = document.querySelector('.todos');
+    while(todos.firstChild) {
+        todos.firstChild.remove();
+    }
+
+    let allTodos = myProjects.getAllTodos();
+    for(let i = 0; i < allTodos.length; i++) {
+        if(isToday(allTodos[i].dueDate)) {
+            displayTodo(allTodos[i]);
+        }
+    }
+});
+
+// highlight this week section and display todos for this week
+thisWeekSection.addEventListener('click', () => {
+    todaySection.style.backgroundColor = 'transparent';
+    allSection.style.backgroundColor = 'transparent';
+    thisWeekSection.style.backgroundColor = 'lightgray';
+
+    let projectDivs = document.querySelectorAll('.sidebar-project-item');
+    for(let i = 0; i < projectDivs.length; i++) {
+        projectDivs[i].style.backgroundColor = 'transparent';
+    }
+
+    document.querySelector('.content-title').textContent = 'Todos Due This Week';
+    document.getElementById('add-todo-button').style.display = 'none';
+
+    let todos = document.querySelector('.todos');
+    while(todos.firstChild) {
+        todos.firstChild.remove();
+    }
+
+    let allTodos = myProjects.getAllTodos();
+    for(let i = 0; i < allTodos.length; i++) {
+        if(isThisWeek(allTodos[i].dueDate)) {
+            displayTodo(allTodos[i]);
+        }
+    }
+});
+
+// highlight all section and display todos for this week
+allSection.addEventListener('click', () => {
+    todaySection.style.backgroundColor = 'transparent';
+    thisWeekSection.style.backgroundColor = 'transparent';
+    allSection.style.backgroundColor = 'lightgray';
+
+    let projectDivs = document.querySelectorAll('.sidebar-project-item');
+    for(let i = 0; i < projectDivs.length; i++) {
+        projectDivs[i].style.backgroundColor = 'transparent';
+    }
+
+    document.querySelector('.content-title').textContent = 'All Upcoming Todos';
+    document.getElementById('add-todo-button').style.display = 'none';
+
+    let todos = document.querySelector('.todos');
+    while(todos.firstChild) {
+        todos.firstChild.remove();
+    }
+
+    let allTodos = myProjects.getAllTodos();
+    for(let i = 0; i < allTodos.length; i++) {
+        displayTodo(allTodos[i]);
     }
 });
