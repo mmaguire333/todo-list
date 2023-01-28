@@ -94,7 +94,13 @@ let content = document.querySelector('.content');
 function openEditForm(currentTodo) {
     titleInput.value = currentTodo.title;
     descriptionInput.value = currentTodo.description;
-    dueDateInput.value = currentTodo.dueDate;
+    let currentYear = currentTodo.dueDate.getFullYear().toString();
+    let currentMonth = (currentTodo.dueDate.getMonth() + 1).toString();
+    if(currentMonth.length === 1) { 
+        currentMonth = "0" + currentMonth;
+    }
+    let currentDayofMonth = currentTodo.dueDate.getDate().toString();
+    dueDateInput.value = currentYear + "-" + currentMonth + "-" + currentDayofMonth;
 
     if(currentTodo.priority === 'High') {
         highPriority.selected = true;
