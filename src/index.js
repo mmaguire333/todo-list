@@ -95,12 +95,12 @@ document.addEventListener('click', function(e) {
         // highlight within sidebar
         let projectDivs = document.querySelectorAll('.sidebar-project-item');
         for(let i = 0; i < projectDivs.length; i++) {
-            projectDivs[i].style.backgroundColor = 'transparent';
+            projectDivs[i].parentNode.style.backgroundColor = 'transparent';
         }
         document.querySelector('.today').style.backgroundColor = 'transparent';
         document.querySelector('.this-week').style.backgroundColor = 'transparent';
         document.querySelector('.all').style.backgroundColor = 'transparent';
-        target.style.backgroundColor = 'lightgray';
+        target.parentNode.style.backgroundColor = '#dbd8e3';
 
         // remove content currently displayed and add content associated with clicked project
         let contentTitle = document.querySelector('.content-title');
@@ -283,11 +283,11 @@ let allSection = document.querySelector('.all');
 todaySection.addEventListener('click', () => {
     thisWeekSection.style.backgroundColor = 'transparent';
     allSection.style.backgroundColor = 'transparent';
-    todaySection.style.backgroundColor = 'lightgray';
+    todaySection.style.backgroundColor = '#dbd8e3';
 
     let projectDivs = document.querySelectorAll('.sidebar-project-item');
     for(let i = 0; i < projectDivs.length; i++) {
-        projectDivs[i].style.backgroundColor = 'transparent';
+        projectDivs[i].parentNode.style.backgroundColor = 'transparent';
     }
 
     document.querySelector('.content-title').textContent = 'Todos Due Today';
@@ -317,11 +317,11 @@ todaySection.addEventListener('click', () => {
 thisWeekSection.addEventListener('click', () => {
     todaySection.style.backgroundColor = 'transparent';
     allSection.style.backgroundColor = 'transparent';
-    thisWeekSection.style.backgroundColor = 'lightgray';
+    thisWeekSection.style.backgroundColor = '#dbd8e3';
 
     let projectDivs = document.querySelectorAll('.sidebar-project-item');
     for(let i = 0; i < projectDivs.length; i++) {
-        projectDivs[i].style.backgroundColor = 'transparent';
+        projectDivs[i].parentNode.style.backgroundColor = 'transparent';
     }
 
     document.querySelector('.content-title').textContent = 'Todos Due This Week';
@@ -351,11 +351,11 @@ thisWeekSection.addEventListener('click', () => {
 allSection.addEventListener('click', () => {
     todaySection.style.backgroundColor = 'transparent';
     thisWeekSection.style.backgroundColor = 'transparent';
-    allSection.style.backgroundColor = 'lightgray';
+    allSection.style.backgroundColor = '#dbd8e3';
 
     let projectDivs = document.querySelectorAll('.sidebar-project-item');
     for(let i = 0; i < projectDivs.length; i++) {
-        projectDivs[i].style.backgroundColor = 'transparent';
+        projectDivs[i].parentNode.style.backgroundColor = 'transparent';
     }
 
     document.querySelector('.content-title').textContent = 'All Upcoming Todos';
