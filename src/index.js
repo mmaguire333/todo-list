@@ -304,6 +304,13 @@ todaySection.addEventListener('click', () => {
             displayTodo(allTodos[i]);
         }
     }
+
+    let editButtons = document.querySelectorAll('#edit-todo-btn');
+    let deleteButtons = document.querySelectorAll('#delete-todo-button');
+    for(let i = 0; i < editButtons.length; i++) {
+        editButtons[i].remove();
+        deleteButtons[i].remove();
+    }
 });
 
 // highlight this week section and display todos for this week
@@ -331,6 +338,13 @@ thisWeekSection.addEventListener('click', () => {
             displayTodo(allTodos[i]);
         }
     }
+
+    let editButtons = document.querySelectorAll('#edit-todo-btn');
+    let deleteButtons = document.querySelectorAll('#delete-todo-button');
+    for(let i = 0; i < editButtons.length; i++) {
+        editButtons[i].remove();
+        deleteButtons[i].remove();
+    }
 });
 
 // highlight all section and display todos for this week
@@ -355,5 +369,12 @@ allSection.addEventListener('click', () => {
     let allTodos = myProjects.getAllTodos();
     for(let i = 0; i < allTodos.length; i++) {
         displayTodo(allTodos[i]);
+    }
+
+    let editButtons = document.querySelectorAll('#edit-todo-btn');
+    let deleteButtons = document.querySelectorAll('#delete-todo-button');
+    for(let i = 0; i < editButtons.length; i++) {
+        editButtons[i].remove();
+        deleteButtons[i].remove();
     }
 });

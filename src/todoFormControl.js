@@ -5,19 +5,29 @@ let titleInput = document.createElement('input');
 titleInput.type = 'text';
 titleInput.classList.add('todo-title-input');
 titleInput.required = true;
+titleInput.placeholder = 'Title:';
 
 let descriptionInput = document.createElement('input');
 descriptionInput.type = 'text';
 descriptionInput.classList.add('todo-description-input');
 descriptionInput.required = true;
+descriptionInput.placeholder = 'Description:';
 
+let dateLabel = document.createElement('label');
+dateLabel.textContent = 'Due Date:';
+dateLabel.for = 'due-date';
 let dueDateInput = document.createElement('input');
 dueDateInput.type = 'date';
 dueDateInput.classList.add('duedate-input');
+dueDateInput.name = 'due-date';
 dueDateInput.required = true;
 
+let priorityLabel = document.createElement('label');
+priorityLabel.textContent = 'Is this todo high, medium, or low priority?';
+priorityLabel.for = 'priority';
 let priorityInput = document.createElement('select');
 priorityInput.id = 'todo-priority';
+priorityInput.name = 'priority';
 priorityInput.required = true;
 
 let highPriority = document.createElement('option');
@@ -37,6 +47,9 @@ priorityInput.appendChild(highPriority);
 priorityInput.appendChild(mediumPriority);
 priorityInput.appendChild(lowPriority);
 
+let statusLabel = document.createElement('label');
+statusLabel.textContent = 'Has this todo been completed?';
+statusLabel.for = 'todo-status-dropdown';
 let statusDropdownInput = document.createElement('select');
 statusDropdownInput.id = 'todo-status-dropdown';
 statusDropdownInput.name = 'todo-status-dropdown';
@@ -69,8 +82,11 @@ buttonDiv.appendChild(submitBtn);
 buttonDiv.appendChild(cancelBtn);
 formContainer.appendChild(titleInput);
 formContainer.appendChild(descriptionInput);
+formContainer.appendChild(dateLabel);
 formContainer.appendChild(dueDateInput);
+formContainer.appendChild(priorityLabel);
 formContainer.appendChild(priorityInput);
+formContainer.appendChild(statusLabel);
 formContainer.appendChild(statusDropdownInput);
 formContainer.appendChild(buttonDiv);
 
