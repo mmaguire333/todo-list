@@ -100,7 +100,7 @@ document.addEventListener('click', function(e) {
         document.querySelector('.today').style.backgroundColor = 'transparent';
         document.querySelector('.this-week').style.backgroundColor = 'transparent';
         document.querySelector('.all').style.backgroundColor = 'transparent';
-        target.parentNode.style.backgroundColor = '#dbd8e3';
+        target.parentNode.style.backgroundColor = '#2a2438';
 
         // remove content currently displayed and add content associated with clicked project
         let contentTitle = document.querySelector('.content-title');
@@ -267,10 +267,14 @@ document.addEventListener('click', function(e) {
         // updated dom elements to the new values of the current todo
         todoDom.firstChild.textContent = newTitle;
         todoDom.firstChild.nextSibling.textContent = newDescription;
-        todoDom.firstChild.nextSibling.nextSibling.textContent = newPriority;
-        todoDom.firstChild.nextSibling.nextSibling.nextSibling.textContent = newStatus;
-        todoDom.firstChild.nextSibling.nextSibling.nextSibling.nextSibling.textContent = newDueDate;
-
+        todoDom.firstChild.nextSibling.nextSibling.textContent = "Priority: " + newPriority;
+        if(newStatus === "yes") {
+            todoDom.firstChild.nextSibling.nextSibling.nextSibling.textContent = "Status: Completed";
+        } else {
+            todoDom.firstChild.nextSibling.nextSibling.nextSibling.textContent = "Status: In Progress";
+        }
+        todoDom.firstChild.nextSibling.nextSibling.nextSibling.nextSibling.textContent = "Due Date: " + (newDueDate.getMonth() + 1) + "/" + newDueDate.getDate() + "/" + newDueDate.getFullYear();
+        
         closeEditForm();
     }
 });
@@ -283,7 +287,7 @@ let allSection = document.querySelector('.all');
 todaySection.addEventListener('click', () => {
     thisWeekSection.style.backgroundColor = 'transparent';
     allSection.style.backgroundColor = 'transparent';
-    todaySection.style.backgroundColor = '#dbd8e3';
+    todaySection.style.backgroundColor = '#2a2438';
 
     let projectDivs = document.querySelectorAll('.sidebar-project-item');
     for(let i = 0; i < projectDivs.length; i++) {
@@ -317,7 +321,7 @@ todaySection.addEventListener('click', () => {
 thisWeekSection.addEventListener('click', () => {
     todaySection.style.backgroundColor = 'transparent';
     allSection.style.backgroundColor = 'transparent';
-    thisWeekSection.style.backgroundColor = '#dbd8e3';
+    thisWeekSection.style.backgroundColor = '#2a2438';
 
     let projectDivs = document.querySelectorAll('.sidebar-project-item');
     for(let i = 0; i < projectDivs.length; i++) {
@@ -351,7 +355,7 @@ thisWeekSection.addEventListener('click', () => {
 allSection.addEventListener('click', () => {
     todaySection.style.backgroundColor = 'transparent';
     thisWeekSection.style.backgroundColor = 'transparent';
-    allSection.style.backgroundColor = '#dbd8e3';
+    allSection.style.backgroundColor = '#2a2438';
 
     let projectDivs = document.querySelectorAll('.sidebar-project-item');
     for(let i = 0; i < projectDivs.length; i++) {

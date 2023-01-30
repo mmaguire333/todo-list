@@ -15,18 +15,23 @@ function displayTodo(todo) {
     let todoDescription = document.createElement('p');
     todoDescription.classList.add('todo-description-paragraph');
     todoDescription.textContent = todo.description;
+    todoDescription.style.fontStyle = 'italic';
 
     let todoDueDate = document.createElement('p');
     todoDueDate.classList.add('todo-due-date');
-    todoDueDate.textContent = todo.dueDate;
+    todoDueDate.textContent = "Due Date: " + (todo.dueDate.getMonth() + 1) + "/" + todo.dueDate.getDate() + "/" + todo.dueDate.getFullYear();
 
     let todoPriority = document.createElement('p');
-    todoPriority.classList.add('.todo-priority');
-    todoPriority.textContent = todo.priority;
+    todoPriority.classList.add('todo-priority');
+    todoPriority.textContent = "Priority: " + todo.priority;
 
     let todoStatus = document.createElement('p');
-    todoStatus.classList.add('.todo-status');
-    todoStatus.textContent = todo.isDone;
+    todoStatus.classList.add('todo-status');
+    if(todo.isDone === 'no') {
+        todoStatus.textContent = "Status: In Progress";
+    } else {
+        todoStatus.textContent = "Satus: Completed";
+    }
 
     let editTodoBtn = document.createElement('button');
     editTodoBtn.type = 'button';

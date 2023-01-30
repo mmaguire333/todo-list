@@ -68,7 +68,7 @@ statusDropdownInput.appendChild(noStatus);
 
 let saveChangesBtn = document.createElement('button');
 saveChangesBtn.type = 'button';
-saveChangesBtn.textContent = 'Save Changes';
+saveChangesBtn.textContent = 'Save';
 saveChangesBtn.id = 'save-todo-changes';
 
 let cancelBtn = document.createElement('button');
