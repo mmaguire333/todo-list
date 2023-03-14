@@ -9,7 +9,7 @@ function createProject(name, todos) {
         },
         
         removeTodo(todoToRemove) {
-            let index = this.todos.findIndex((todo) => todo.name === todoToRemove.name);
+            let index = this.todos.findIndex((todo) => todo.title === todoToRemove.title);
             this.todos.splice(index, 1);
         }
     };
