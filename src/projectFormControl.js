@@ -9,7 +9,7 @@ newProjectInput.required = true;
 newProjectInput.placeholder = 'Enter project title';
     
 let newProjectSubmit = document.createElement('button');
-newProjectSubmit.type = 'button';
+newProjectSubmit.type = 'submit';
 newProjectSubmit.textContent = "Submit";
 newProjectSubmit.classList.add('submit-project-button');
 

@@ -152,6 +152,7 @@ document.addEventListener('click', function(e) {
     const target = e.target.closest('#submit-todo');
 
     if(target) {
+        e.preventDefault();
         let contentTitle = document.querySelector('.content-title');
         let currentProject = myProjects.getProjects().find((project) => project.name === contentTitle.textContent);
         
@@ -184,8 +185,8 @@ document.addEventListener('click', function(e) {
 
     if(target) {
         let currentProject = myProjects.getProjects().find((project) => project.name === document.querySelector('.content-title').textContent);
-        let currentTodoTitle = target.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.textContent;
-        let currentTodoDescription = target.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.textContent;
+        let currentTodoTitle = target.parentNode.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.textContent;
+        let currentTodoDescription = target.parentNode.previousElementSibling.previousElementSibling.previousElementSibling.textContent;
         let currentTodo = currentProject.todos.find((todo) => todo.title === currentTodoTitle && todo.description === currentTodoDescription);
 
         currentProject.removeTodo(currentTodo);
@@ -208,9 +209,11 @@ document.addEventListener('click', function(e) {
     const target = e.target.closest('#edit-todo-btn');
 
     if(target) {
+        console.log(target.parentNode);
+
         let currentProject = myProjects.getProjects().find((project) => project.name === document.querySelector('.content-title').textContent);
-        let currentTodoTitle = target.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.textContent;
-        let currentTodoDescription = target.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.textContent;
+        let currentTodoTitle = target.parentNode.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.textContent;
+        let currentTodoDescription = target.parentNode.previousElementSibling.previousElementSibling.previousElementSibling.textContent;
         currentlySelectedTodo = currentProject.todos.find((todo) => todo.title === currentTodoTitle && todo.description === currentTodoDescription);
 
         openEditForm(currentlySelectedTodo);
@@ -252,7 +255,7 @@ document.addEventListener('click', function(e) {
         let displayedTodos = list.children;
         let todoDom;
         for(let i = 0; i < displayedTodos.length; i++) {
-            if(displayedTodos[i].firstChild.firstChild.textContent === currentlySelectedTodo.title && displayedTodos[i].firstChild.firstChild.nextSibling.textContent === currentlySelectedTodo.description) {
+            if(displayedTodos[i].firstChild.firstChild.textContent === currentlySelectedTodo.title && displayedTodos[i].firstChild.firstChild.nextSibling.nextSibling.textContent === currentlySelectedTodo.description) {
                 todoDom = displayedTodos[i].firstChild;
             }
         }
@@ -266,14 +269,14 @@ document.addEventListener('click', function(e) {
 
         // updated dom elements to the new values of the current todo
         todoDom.firstChild.textContent = newTitle;
-        todoDom.firstChild.nextSibling.textContent = newDescription;
-        todoDom.firstChild.nextSibling.nextSibling.textContent = "Priority: " + newPriority;
+        todoDom.firstChild.nextSibling.textContent = "Due Date: " + (newDueDate.getMonth() + 1) + "/" + newDueDate.getDate() + "/" + newDueDate.getFullYear();
+        todoDom.firstChild.nextSibling.nextSibling.textContent = newDescription;
+        todoDom.firstChild.nextSibling.nextSibling.nextSibling.textContent = "Priority: " + newPriority;
         if(newStatus === "yes") {
-            todoDom.firstChild.nextSibling.nextSibling.nextSibling.textContent = "Status: Completed";
+            todoDom.firstChild.nextSibling.nextSibling.nextSibling.nextSibling.textContent = "Status: Completed";
         } else {
-            todoDom.firstChild.nextSibling.nextSibling.nextSibling.textContent = "Status: In Progress";
+            todoDom.firstChild.nextSibling.nextSibling.nextSibling.nextSibling.textContent = "Status: In Progress";
         }
-        todoDom.firstChild.nextSibling.nextSibling.nextSibling.nextSibling.textContent = "Due Date: " + (newDueDate.getMonth() + 1) + "/" + newDueDate.getDate() + "/" + newDueDate.getFullYear();
         
         closeEditForm();
     }
@@ -285,13 +288,13 @@ let allSection = document.querySelector('.all');
 
 // highlight today section and display todos for today
 todaySection.addEventListener('click', () => {
-    thisWeekSection.style.backgroundColor = 'transparent';
-    allSection.style.backgroundColor = 'transparent';
+    thisWeekSection.style.backgroundColor = '#5c5470';
+    allSection.style.backgroundColor = '#5c5470';
     todaySection.style.backgroundColor = '#2a2438';
 
     let projectDivs = document.querySelectorAll('.sidebar-project-item');
     for(let i = 0; i < projectDivs.length; i++) {
-        projectDivs[i].parentNode.style.backgroundColor = 'transparent';
+        projectDivs[i].parentNode.style.backgroundColor = '#5c5470';
     }
 
     document.querySelector('.content-title').textContent = 'Todos Due Today';
@@ -319,13 +322,13 @@ todaySection.addEventListener('click', () => {
 
 // highlight this week section and display todos for this week
 thisWeekSection.addEventListener('click', () => {
-    todaySection.style.backgroundColor = 'transparent';
-    allSection.style.backgroundColor = 'transparent';
+    todaySection.style.backgroundColor = '#5c5470';
+    allSection.style.backgroundColor = '#5c5470';
     thisWeekSection.style.backgroundColor = '#2a2438';
 
     let projectDivs = document.querySelectorAll('.sidebar-project-item');
     for(let i = 0; i < projectDivs.length; i++) {
-        projectDivs[i].parentNode.style.backgroundColor = 'transparent';
+        projectDivs[i].parentNode.style.backgroundColor = '#5c5470';
     }
 
     document.querySelector('.content-title').textContent = 'Todos Due This Week';
@@ -353,13 +356,13 @@ thisWeekSection.addEventListener('click', () => {
 
 // highlight all section and display todos for this week
 allSection.addEventListener('click', () => {
-    todaySection.style.backgroundColor = 'transparent';
-    thisWeekSection.style.backgroundColor = 'transparent';
+    todaySection.style.backgroundColor = '#5c5470';
+    thisWeekSection.style.backgroundColor = '#5c5470';
     allSection.style.backgroundColor = '#2a2438';
 
     let projectDivs = document.querySelectorAll('.sidebar-project-item');
     for(let i = 0; i < projectDivs.length; i++) {
-        projectDivs[i].parentNode.style.backgroundColor = 'transparent';
+        projectDivs[i].parentNode.style.backgroundColor = '#5c5470';
     }
 
     document.querySelector('.content-title').textContent = 'All Upcoming Todos';

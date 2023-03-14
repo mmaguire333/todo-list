@@ -43,13 +43,17 @@ function displayTodo(todo) {
     deleteTodoBtn.id = 'delete-todo-button';
     deleteTodoBtn.textContent = 'Delete';
 
+    let buttonsDiv = document.createElement('div');
+    buttonsDiv.classList.add('todo-buttons');
+    buttonsDiv.appendChild(editTodoBtn);
+    buttonsDiv.appendChild(deleteTodoBtn);
+
     todoContainer.appendChild(todoTitle);
+    todoContainer.appendChild(todoDueDate);
     todoContainer.appendChild(todoDescription);
     todoContainer.appendChild(todoPriority);
     todoContainer.appendChild(todoStatus);
-    todoContainer.appendChild(todoDueDate);
-    todoContainer.appendChild(editTodoBtn);
-    todoContainer.appendChild(deleteTodoBtn);
+    todoContainer.appendChild(buttonsDiv);
 
     listElement.appendChild(todoContainer);
     todosList.appendChild(listElement);
