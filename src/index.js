@@ -6,6 +6,50 @@ import { closeTodoForm, openTodoForm } from "./todoFormControl";
 import { displayTodo } from "./todoDisplayControl";
 import { openEditForm, closeEditForm } from "./editTodoFormControl";
 import { isToday, isThisWeek } from "date-fns";
+import { addToStorage, removeProjectFromStorage, removeTodoFromStorage, updateTodoInStorage } from "./storage";
+
+function loadAndDisplayLocalData() {
+    for(let i = 0; i < localStorage.length; i++) {
+        // get current project name and associated todo array from local storage
+        let currentProjectName = localStorage.key(i);
+        let currentProjectTodos = JSON.parse(localStorage.getItem(localStorage.key(i)));
+
+        // change todos due date from string back to a date object
+        for(let i = 0; i <currentProjectTodos.length; i++) {
+            let currentDateString = currentProjectTodos[i].dueDate;
+            let currentDate = new Date(Date.parse(currentDateString));
+            currentProjectTodos[i].dueDate = currentDate;
+            console.log(currentProjectTodos[i]);
+        }
+
+        let storedProject = createProject(currentProjectName, currentProjectTodos);
+        myProjects.addProject(storedProject);
+    }
+
+    // display all of the projects in the projects object
+    let projectsList = document.querySelector('.projects-list');
+
+    for(let i = 0; i < myProjects.getProjects().length; i++) {
+        let listItem = document.createElement('li');
+        listItem.classList.add('sidebar-project-item');
+    
+        let deleteButton = document.createElement('button');
+        deleteButton.type = 'button';
+        deleteButton.textContent = 'X';
+        deleteButton.classList.add('delete-button');
+    
+        let newProjContainer = document.createElement('div');
+        newProjContainer.classList.add('sidebar-project-container');
+        newProjContainer.appendChild(listItem);
+        newProjContainer.appendChild(deleteButton);
+
+        listItem.textContent = myProjects.getProjects()[i].name;
+        projectsList.appendChild(newProjContainer);
+    }
+}
+
+// load and display locally saved projects and todos
+loadAndDisplayLocalData();
 
 let newProjectBtn = document.querySelector('.new-project');
 
@@ -56,6 +100,7 @@ document.addEventListener('click', function(e) {
 
         let newProj = createProject(document.getElementById('new-project-name').value, []);
         myProjects.addProject(newProj);
+        addToStorage(newProj);
         closeProjectForm();
         listItem.textContent = newProj.name;
         projectsList.appendChild(newProjContainer);
@@ -83,6 +128,7 @@ document.addEventListener('click', function(e) {
 
         // remove project from project object and from sidebar display
         myProjects.removeProject(projectName);
+        removeProjectFromStorage(projectName);
         target.parentNode.remove();
     }
 });
@@ -174,6 +220,7 @@ document.addEventListener('click', function(e) {
         let newTodo = createTodo(newTitle, newDescription, newDueDate, newPriority, newStatus);
         currentProject.addTodo(newTodo);
 
+        addToStorage(currentProject);
         closeTodoForm();
         displayTodo(newTodo);
     }
@@ -190,6 +237,7 @@ document.addEventListener('click', function(e) {
         let currentTodo = currentProject.todos.find((todo) => todo.title === currentTodoTitle && todo.description === currentTodoDescription);
 
         currentProject.removeTodo(currentTodo);
+        removeTodoFromStorage(currentProject, currentTodo);
 
         let displayedList = document.querySelector('.todos');
         while(displayedList.firstChild) {
@@ -209,8 +257,6 @@ document.addEventListener('click', function(e) {
     const target = e.target.closest('#edit-todo-btn');
 
     if(target) {
-        console.log(target.parentNode);
-
         let currentProject = myProjects.getProjects().find((project) => project.name === document.querySelector('.content-title').textContent);
         let currentTodoTitle = target.parentNode.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.textContent;
         let currentTodoDescription = target.parentNode.previousElementSibling.previousElementSibling.previousElementSibling.textContent;
@@ -245,6 +291,9 @@ document.addEventListener('click', function(e) {
         let newPriority = document.getElementById('todo-priority').value;
         let newStatus = document.getElementById('todo-status-dropdown').value;
 
+        // store old todo for the purpose of finding it in local storage when updating local storage
+        let oldTodo = createTodo(currentlySelectedTodo.title, currentlySelectedTodo.description, currentlySelectedTodo.dueDate, currentlySelectedTodo.priority, currentlySelectedTodo.isDone);
+
         if(!document.querySelector('.todo-form-container').checkValidity()) {
             alert("Please fill out all required fields.");
             return;
@@ -266,6 +315,10 @@ document.addEventListener('click', function(e) {
         currentlySelectedTodo.dueDate = newDueDate;
         currentlySelectedTodo.priority = newPriority;
         currentlySelectedTodo.isDone = newStatus;
+
+        // get current project and update current todo in local storage
+        let currentProject = myProjects.getProjects().find((project) => project.name === document.querySelector('.content-title').textContent);
+        updateTodoInStorage(currentProject, oldTodo, currentlySelectedTodo);
 
         // updated dom elements to the new values of the current todo
         todoDom.firstChild.textContent = newTitle;
